@@ -1,4 +1,5 @@
 export AUTO_SWITCH_MAMBAENV_VERSION='0.0.1'
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 if ! type mamba > /dev/null; then
     export DISABLE_AUTO_SWITCH_MAMBAENV="1"
@@ -147,8 +148,6 @@ function mkmenv()
       fi
     done
 
-    # Sample yml file can be found at
-    # https://github.com/vithursant/deep-learning-conda-envs/blob/master/tf-py3p6-env.yml
     for requirements in *requirements.yml
     do
       printf "Found a %s file. Install using mamba? [y/N]: " "$requirements"
@@ -158,15 +157,32 @@ function mkmenv()
         mamba env update -f "$requirements"
       fi
     done
-    for requirements in *environment.yml
-    do
-      printf "Found a %s file. Install using mamba? [y/N]: " "$requirements"
-      read ans
 
-      if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
-        mamba env update -f "$requirements"
-      fi
-    done
+    if [[ -f "environment.yml" ]]; then
+      for requirements in *environment.yml
+      do
+        printf "Found a %s file. Install using mamba? [y/N]: " "$requirements"
+        read ans
+
+        if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
+          mamba env update -f "$requirements"
+        fi
+      done
+    else
+      menv_name="$(basename $PWD)"
+      echo "name: $menv_name" > environment.yml
+      cat $SCRIPT_DIR/environment.yml >> environment.yml
+      for requirements in *environment.yml
+      do
+        printf "Built a base %s file. Install using mamba? [y/N]: " "$requirements"
+        read ans
+
+        if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
+          mamba env update -f "$requirements"
+        fi
+      done
+    fi
+
 
     printf "$menv_name\n" > ".menv"
     chmod 600 .menv

@@ -1,0 +1,53 @@
+
+channels:
+- conda-forge
+dependencies:
+- python==3.10
+- pip
+
+  # main packages
+- numpy
+- scipy
+- pandas
+# - geopandas>=0.11.0
+
+  # interactive python
+- ipython
+- jupyterlab
+
+  # reading excel tables
+# - tabula-py
+# - xlrd
+# - lxml
+# - pytables
+# - pyxlsb
+# - openpyxl
+
+  # geodata utilities
+# - fiona<=1.18.20
+# - shapely<2.0
+# - proj
+# - geopy
+# - pyepsg
+# - cartopy
+# - descartes
+
+  # plotting
+- matplotlib<=3.5.2
+- seaborn
+#- plotly
+#- hvplot
+#- holoviews
+#- geoviews
+- graphviz
+
+#   # solvers
+# - coincbc
+# - glpk
+
+  # publishing
+- jupyter-book
+- ghp-import
+
+  # astro
+# - astropy
