@@ -172,15 +172,12 @@ function mkmenv()
       menv_name="$(basename $PWD)"
       echo "name: $menv_name" > environment.yml
       cat $SCRIPT_DIR/environment.yml >> environment.yml
-      for requirements in *environment.yml
-      do
-        printf "Built a base %s file. Install using mamba? [y/N]: " "$requirements"
-        read ans
+      printf "Built a base %s file. Install using mamba? [y/N]: " "$requirements"
+      read ans
 
-        if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
-          mamba env update -f "$requirements"
-        fi
-      done
+      if [[ "$ans" = "y" || "$ans" = "Y" ]]; then
+        mamba env update
+      fi
     fi
 
 
